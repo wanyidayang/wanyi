@@ -1,0 +1,1616 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>体重记录器 - 单页版</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box }
+    :root {
+      /* 现代化色彩系统 */
+      --primary-50: #f0f9ff;
+      --primary-100: #e0f2fe;
+      --primary-500: #0ea5e9;
+      --primary-600: #0284c7;
+      --primary-700: #0369a1;
+      --primary-900: #0c4a6e;
+      
+      --secondary-50: #fdf4ff;
+      --secondary-100: #fae8ff;
+      --secondary-500: #a855f7;
+      --secondary-600: #9333ea;
+      --secondary-700: #7c3aed;
+      
+      --accent-gold: #f59e0b;
+      --accent-gold-light: #fbbf24;
+      --accent-emerald: #10b981;
+      --accent-rose: #f43f5e;
+      
+      /* 文字色彩层次 */
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-tertiary: #64748b;
+      --text-muted: #94a3b8;
+      --text-inverse: #ffffff;
+      
+      /* 背景色系 */
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-tertiary: #f1f5f9;
+      --bg-overlay: rgba(15, 23, 42, 0.8);
+      
+      /* 边框与分割线 */
+      --border-light: #e2e8f0;
+      --border-medium: #cbd5e1;
+      --border-strong: #94a3b8;
+      
+      /* 渐变色系 */
+      --gradient-primary: linear-gradient(135deg, var(--primary-500) 0%, var(--secondary-600) 100%);
+      --gradient-secondary: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-light) 100%);
+      --gradient-success: linear-gradient(135deg, var(--accent-emerald) 0%, #34d399 100%);
+      --gradient-danger: linear-gradient(135deg, var(--accent-rose) 0%, #fb7185 100%);
+      --gradient-surface: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      
+      /* 阴影系统 */
+      --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+      
+      /* 圆角系统 */
+      --radius-xs: 4px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-2xl: 24px;
+      --radius-full: 9999px;
+      
+      /* 间距系统 */
+      --space-0: 0;
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
+      --space-20: 80px;
+      
+      /* 字体系统 */
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --font-display: 'Inter', system-ui, sans-serif;
+      
+      /* 字体大小 */
+      --text-xs: 12px;
+      --text-sm: 14px;
+      --text-base: 16px;
+      --text-lg: 18px;
+      --text-xl: 20px;
+      --text-2xl: 24px;
+      --text-3xl: 30px;
+      --text-4xl: 36px;
+      --text-5xl: 48px;
+      
+      /* 字重 */
+      --font-light: 300;
+      --font-normal: 400;
+      --font-medium: 500;
+      --font-semibold: 600;
+      --font-bold: 700;
+      --font-extrabold: 800;
+      
+      /* 行高 */
+      --leading-tight: 1.25;
+      --leading-snug: 1.375;
+      --leading-normal: 1.5;
+      --leading-relaxed: 1.625;
+      --leading-loose: 2;
+      
+      /* 动画时长 */
+      --duration-75: 75ms;
+      --duration-100: 100ms;
+      --duration-150: 150ms;
+      --duration-200: 200ms;
+      --duration-300: 300ms;
+      --duration-500: 500ms;
+      --duration-700: 700ms;
+      --duration-1000: 1000ms;
+      
+      /* 动画缓动 */
+      --ease-linear: linear;
+      --ease-in: cubic-bezier(0.4, 0, 1, 1);
+      --ease-out: cubic-bezier(0, 0, 0.2, 1);
+      --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    /* 全局基础样式 */
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+      color: var(--text-secondary);
+      background: var(--bg-secondary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+    
+    /* 滚动条美化 */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-full);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-medium);
+      border-radius: var(--radius-full);
+      transition: background var(--duration-200) var(--ease-out);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--border-strong);
+    }
+    
+    /* 选择文本样式 */
+    ::selection {
+      background: var(--primary-100);
+      color: var(--primary-700);
+    }
+    
+    /* 头部导航 */
+    header {
+      background: var(--gradient-surface);
+      border-bottom: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-6);
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      text-decoration: none;
+      transition: transform var(--duration-200) var(--ease-out);
+    }
+    
+    .brand:hover {
+      transform: translateY(-1px);
+    }
+    
+    .brand h1 {
+      margin: 0;
+      font-size: var(--text-3xl);
+      font-weight: var(--font-extrabold);
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.025em;
+    }
+    
+    /* 主要内容区域 */
+    .main {
+      padding: var(--space-12) 0;
+      min-height: calc(100vh - 80px);
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+    
+    /* 网格布局 */
+    .grid {
+      display: grid;
+      gap: var(--space-8);
+    }
+    
+    .grid-main {
+      grid-template-columns: 360px 1fr;
+    }
+    
+    @media (max-width: 1024px) {
+      .grid-main {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+      .header-inner {
+        padding: 0 var(--space-4);
+      }
+      .container {
+        padding: 0 var(--space-4);
+      }
+    }
+    
+    /* 卡片组件 */
+    .card {
+      background: var(--gradient-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-8);
+      transition: all var(--duration-300) var(--ease-out);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-primary);
+      opacity: 0;
+      transition: opacity var(--duration-300) var(--ease-out);
+    }
+    
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary-100);
+    }
+    
+    .card:hover::before {
+      opacity: 1;
+    }
+    
+    .card + .card {
+      margin-top: var(--space-8);
+    }
+    
+    .card h2 {
+      margin: 0 0 var(--space-6);
+      color: var(--text-primary);
+      font-weight: var(--font-bold);
+      font-size: var(--text-2xl);
+      letter-spacing: -0.025em;
+      border-bottom: 2px solid var(--border-light);
+      padding-bottom: var(--space-4);
+      position: relative;
+    }
+    
+    .card h2::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background: var(--gradient-primary);
+      border-radius: var(--radius-full);
+    }
+    
+    .card h3 {
+      margin: 0 0 var(--space-4);
+      color: var(--text-primary);
+      font-weight: var(--font-semibold);
+      font-size: var(--text-xl);
+      letter-spacing: -0.025em;
+    }
+    
+    .card p {
+      margin: 0 0 var(--space-3);
+      color: var(--text-tertiary);
+      line-height: var(--leading-relaxed);
+      font-size: var(--text-sm);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: var(--space-3) var(--space-6);
+      font-family: var(--font-sans);
+      font-weight: var(--font-semibold);
+      font-size: var(--text-sm);
+      line-height: var(--leading-tight);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all var(--duration-200) var(--ease-out);
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left var(--duration-500) var(--ease-out);
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: var(--text-inverse);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .btn-secondary {
+      background: var(--gradient-secondary);
+      color: var(--text-inverse);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .btn-success {
+      background: var(--gradient-success);
+      color: var(--text-inverse);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .btn-danger {
+      background: var(--gradient-danger);
+      color: var(--text-inverse);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .btn-danger:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .btn-ghost {
+      background: var(--bg-primary);
+      color: var(--text-secondary);
+      border: 2px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .btn-ghost:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--border-medium);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .btn-sm {
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--text-xs);
+      border-radius: var(--radius-md);
+    }
+    
+    .btn-lg {
+      padding: var(--space-4) var(--space-8);
+      font-size: var(--text-lg);
+      border-radius: var(--radius-xl);
+    }
+    
+    /* 表单组件系统 */
+    .form {
+      width: 100%;
+    }
+    
+    .form .field {
+      margin-bottom: var(--space-5);
+      position: relative;
+    }
+    
+    .form label {
+      display: block;
+      margin-bottom: var(--space-2);
+      color: var(--text-primary);
+      font-weight: var(--font-semibold);
+      font-size: var(--text-sm);
+      letter-spacing: 0.025em;
+    }
+    
+    .form input,
+    .form select,
+    .form textarea {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      line-height: var(--leading-normal);
+      outline: none;
+      transition: all var(--duration-200) var(--ease-out);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .form input:focus,
+    .form select:focus,
+    .form textarea:focus {
+      border-color: var(--primary-500);
+      box-shadow: 0 0 0 4px var(--primary-100);
+      transform: translateY(-1px);
+    }
+    
+    .form input:hover,
+    .form select:hover,
+    .form textarea:hover {
+      border-color: var(--border-medium);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .form ::placeholder {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    
+    .form .form-actions {
+      margin-top: var(--space-6);
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+    
+    /* 表格组件 */
+    .table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      background: var(--bg-primary);
+    }
+    
+    .table thead th {
+      background: var(--gradient-primary);
+      color: var(--text-inverse);
+      text-align: left;
+      font-weight: var(--font-semibold);
+      font-size: var(--text-sm);
+      padding: var(--space-4) var(--space-5);
+      letter-spacing: 0.025em;
+      text-transform: uppercase;
+    }
+    
+    .table tbody td {
+      padding: var(--space-4) var(--space-5);
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-light);
+      font-size: var(--text-sm);
+      transition: background-color var(--duration-200) var(--ease-out);
+    }
+    
+    .table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .table tbody tr:hover td {
+      background: var(--primary-50);
+    }
+    
+    .table tbody tr:nth-child(even) {
+      background: var(--bg-secondary);
+    }
+    
+    /* 头像组件 */
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: var(--radius-full);
+      object-fit: cover;
+      display: block;
+      margin: 0 auto var(--space-4);
+      border: 4px solid var(--bg-primary);
+      box-shadow: var(--shadow-lg);
+      cursor: pointer;
+      transition: all var(--duration-300) var(--ease-out);
+      position: relative;
+    }
+    
+    .avatar:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary-100);
+    }
+    
+    .avatar::after {
+      content: '📷';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 32px;
+      height: 32px;
+      background: var(--gradient-primary);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity var(--duration-200) var(--ease-out);
+    }
+    
+    .avatar:hover::after {
+      opacity: 1;
+    }
+    
+    /* 用户信息 */
+    .user-info {
+      text-align: center;
+      padding: var(--space-4);
+    }
+    
+    .user-info h3 {
+      font-size: var(--text-xl);
+      font-weight: var(--font-bold);
+      margin: 0 0 var(--space-1);
+      color: var(--text-primary);
+      letter-spacing: -0.025em;
+    }
+    
+    .user-info p {
+      color: var(--text-muted);
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+    }
+    
+    /* 进度条组件 */
+    .progress {
+      height: 16px;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      box-shadow: var(--shadow-inner);
+      position: relative;
+    }
+    
+    .progress > div {
+      height: 100%;
+      background: var(--gradient-primary);
+      width: 0;
+      transition: width var(--duration-700) var(--ease-out);
+      border-radius: var(--radius-full);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .progress > div::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    /* 空状态 */
+    .empty {
+      text-align: center;
+      padding: var(--space-12);
+      color: var(--text-muted);
+      font-size: var(--text-lg);
+      font-weight: var(--font-medium);
+    }
+    
+    .empty::before {
+      content: '📊';
+      display: block;
+      font-size: var(--text-5xl);
+      margin-bottom: var(--space-4);
+      opacity: 0.5;
+    }
+    
+    /* 隐藏类 */
+    .hidden {
+      display: none !important;
+    }
+    
+    /* 下拉菜单样式 */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      cursor: pointer;
+      padding: var(--space-3) var(--space-4);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      background: var(--gradient-surface);
+      color: var(--text-secondary);
+      font-weight: var(--font-semibold);
+      font-size: var(--text-sm);
+      transition: all var(--duration-200) var(--ease-out);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .dropdown-toggle:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--border-medium);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + var(--space-2));
+      right: 0;
+      min-width: 220px;
+      background: var(--gradient-surface);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      z-index: 1000;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all var(--duration-200) var(--ease-out);
+    }
+    
+    .dropdown-menu:not(.hidden) {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .dropdown-item {
+      display: block;
+      width: 100%;
+      padding: var(--space-4) var(--space-5);
+      border: none;
+      background: none;
+      text-align: left;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--duration-200) var(--ease-out);
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      position: relative;
+    }
+    
+    .dropdown-item:hover {
+      background: var(--primary-50);
+      color: var(--primary-700);
+      transform: translateX(4px);
+    }
+    
+    .dropdown-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--gradient-primary);
+      opacity: 0;
+      transition: opacity var(--duration-200) var(--ease-out);
+    }
+    
+    .dropdown-item:hover::before {
+      opacity: 1;
+    }
+    
+    .dropdown-divider {
+      height: 2px;
+      background: var(--gradient-primary);
+      margin: var(--space-2) 0;
+      opacity: 0.3;
+    }
+    
+    /* 模态框样式 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg-overlay);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--duration-300) var(--ease-out);
+    }
+    
+    .modal-overlay:not(.hidden) {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal-content {
+      max-width: 480px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.9) translateY(20px);
+      transition: transform var(--duration-300) var(--ease-bounce);
+    }
+    
+    .modal-overlay:not(.hidden) .modal-content {
+      transform: scale(1) translateY(0);
+    }
+    
+    /* 登录页面样式 - 柔和背景 */
+    #auth-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: var(--space-6);
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    #auth-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(148,163,184,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: float 30s infinite linear;
+    }
+    
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(-30px, -30px) rotate(360deg); }
+    }
+    
+    .auth-card {
+      max-width: 480px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      padding: var(--space-10);
+      border-radius: var(--radius-2xl);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 2;
+      border: 1px solid rgba(255,255,255,0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    
+    .auth-header {
+      text-align: center;
+      margin-bottom: var(--space-8);
+    }
+    
+    .auth-header h1 {
+      font-size: var(--text-4xl);
+      font-weight: var(--font-extrabold);
+      margin: 0 0 var(--space-3);
+      color: var(--text-primary);
+      letter-spacing: -0.025em;
+    }
+    
+    .auth-header p {
+      color: var(--text-tertiary);
+      margin: 0;
+      font-size: var(--text-lg);
+      font-weight: var(--font-medium);
+    }
+    
+    /* 图表样式 */
+    #weight-chart {
+      width: 100%;
+      height: 320px;
+      border-radius: var(--radius-lg);
+      background: var(--gradient-surface);
+      box-shadow: var(--shadow-inner);
+    }
+    
+    .chart-legend {
+      display: flex;
+      gap: var(--space-4);
+      align-items: center;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--text-secondary);
+    }
+    
+    .legend-item::before {
+      content: '';
+      width: 16px;
+      height: 4px;
+      border-radius: var(--radius-full);
+      background: var(--color, var(--gradient-primary));
+    }
+    
+    .chart-tooltip {
+      position: absolute;
+      background: var(--text-primary);
+      color: var(--text-inverse);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-md);
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      pointer-events: none;
+      z-index: 100;
+      box-shadow: var(--shadow-lg);
+      transform: translateX(-50%) translateY(-100%);
+    }
+    
+    .chart-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--text-primary);
+    }
+    
+    /* 响应式优化 */
+    @media (max-width: 768px) {
+      .auth-card {
+        padding: var(--space-6);
+        margin: var(--space-4);
+      }
+      
+      .auth-header h1 {
+        font-size: var(--text-3xl);
+      }
+      
+      .dropdown-menu {
+        min-width: 180px;
+      }
+      
+      .form .form-actions {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    
+    /* 加载动画 */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .loading {
+      animation: pulse 2s infinite;
+    }
+    
+    /* 成功状态动画 */
+    @keyframes bounce {
+      0%, 20%, 53%, 80%, 100% {
+        transform: translate3d(0, 0, 0);
+      }
+      40%, 43% {
+        transform: translate3d(0, -8px, 0);
+      }
+      70% {
+        transform: translate3d(0, -4px, 0);
+      }
+      90% {
+        transform: translate3d(0, -2px, 0);
+      }
+    }
+    
+    .success {
+      animation: bounce 1s;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="auth-section">
+    <div class="auth-card">
+      <div id="auth-card-content"></div>
+    </div>
+  </div>
+
+  <div id="app-section" class="hidden">
+    <header>
+      <div class="header-inner">
+        <a class="brand" href="#" aria-label="体重记录器主页"><h1>💪 体重记录器</h1></a>
+        <div class="user-actions" id="user-actions"></div>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <div class="grid grid-main">
+          <aside id="left-sidebar"></aside>
+          <div id="main-content"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 全局模态框 -->
+  <div class="modal-overlay hidden" id="profile-modal">
+    <div class="modal-content">
+      <div class="card">
+        <h2>编辑资料</h2>
+        <form id="profile-form" class="form">
+          <div class="field">
+            <label for="edit-nickname">昵称</label>
+            <input id="edit-nickname" required>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="cancel-profile">取消</button>
+            <button type="submit" class="btn btn-primary">保存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay hidden" id="password-modal">
+    <div class="modal-content">
+      <div class="card">
+        <h2>修改密码</h2>
+        <form id="password-form" class="form">
+          <div class="field">
+            <label for="new-password">新密码</label>
+            <input id="new-password" type="password" required>
+          </div>
+          <div class="field">
+            <label for="confirm-password">确认密码</label>
+            <input id="confirm-password" type="password" required>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="cancel-password">取消</button>
+            <button type="submit" class="btn btn-primary">保存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+    // --- STATE MANAGEMENT ---
+    const AppState = {
+      _state: {
+        user: null,
+        records: [],
+        goalWeight: 0,
+      },
+      _subscribers: [],
+      
+      init() {
+        this.load();
+        window.addEventListener('storage', () => { this.load(); this.notify(); });
+      },
+
+      load() {
+        this._state.user = JSON.parse(localStorage.getItem('user'));
+        const records = JSON.parse(localStorage.getItem('records') || '[]');
+        this._state.records = records.sort((a, b) => new Date(b.date) - new Date(a.date));
+        this._state.goalWeight = Number(localStorage.getItem('goalWeight') || 0);
+      },
+
+      save() {
+        localStorage.setItem('user', JSON.stringify(this._state.user));
+        localStorage.setItem('records', JSON.stringify(this._state.records));
+        localStorage.setItem('goalWeight', String(this._state.goalWeight));
+        this.notify();
+      },
+
+      subscribe(callback) {
+        this._subscribers.push(callback);
+      },
+
+      notify() {
+        this._subscribers.forEach(cb => cb(this._state));
+      },
+
+      get state() {
+        return this._state;
+      },
+
+      // Actions
+      login(username, password) {
+        const users = JSON.parse(localStorage.getItem('users') || '{}');
+        if (users[username] && users[username].password === password) {
+          this._state.user = { username, ...users[username] };
+          this.save();
+          return true;
+        }
+        return false;
+      },
+
+      register(username, password) {
+        const users = JSON.parse(localStorage.getItem('users') || '{}');
+        if (users[username]) return false; // User exists
+        users[username] = { password, nickname: username, avatar: '' };
+        localStorage.setItem('users', JSON.stringify(users));
+        this._state.user = { username, ...users[username] };
+        this.save();
+        return true;
+      },
+
+      logout() {
+        this._state.user = null;
+        this.save();
+      },
+      
+      updateUser(data) {
+        if (!this._state.user) return;
+        const users = JSON.parse(localStorage.getItem('users') || '{}');
+        const username = this._state.user.username;
+        users[username] = { ...users[username], ...data };
+        this._state.user = { ...this._state.user, ...data };
+        localStorage.setItem('users', JSON.stringify(users));
+        this.save();
+      },
+
+      addRecord(date, weight, notes = '') {
+        this._state.records.unshift({ date, weight: Number(weight), notes });
+        this._state.records.sort((a, b) => new Date(b.date) - new Date(a.date));
+        this.save();
+      },
+
+      deleteRecord(index) {
+        this._state.records.splice(index, 1);
+        this.save();
+      },
+      
+      clearRecords() {
+        this._state.records = [];
+        this.save();
+      },
+
+      setGoal(weight) {
+        this._state.goalWeight = Number(weight);
+        this.save();
+      }
+    };
+
+    // --- TEMPLATES / RENDERERS ---
+    const Templates = {
+      login: `
+        <div class="auth-header">
+          <h1>欢迎回来</h1>
+          <p>登录以继续使用体重记录器</p>
+        </div>
+        <form class="form" id="login-form">
+          <div class="field"><label for="login-user">用户名</label><input id="login-user" required></div>
+          <div class="field"><label for="login-pass">密码</label><input id="login-pass" type="password" required></div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="show-register">注册</button>
+            <button type="submit" class="btn btn-primary">登录</button>
+          </div>
+        </form>
+      `,
+      register: `
+        <div class="auth-header">
+          <h1>创建账户</h1>
+          <p>加入我们，开始您的健康之旅</p>
+        </div>
+        <form class="form" id="register-form">
+          <div class="field"><label for="reg-user">用户名</label><input id="reg-user" required></div>
+          <div class="field"><label for="reg-pass">密码</label><input id="reg-pass" type="password" required></div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="show-login">返回登录</button>
+            <button type="submit" class="btn btn-primary">注册</button>
+          </div>
+        </form>
+      `,
+      userActions: (user) => `
+        <div class="dropdown">
+          <div class="dropdown-toggle" id="user-dropdown-toggle">
+            <span style="font-weight: 600;">${user.nickname}</span>
+            <span style="font-size: 12px;">▼</span>
+          </div>
+          <div class="dropdown-menu hidden" id="user-dropdown-menu">
+            <button class="dropdown-item" id="edit-profile-btn">编辑资料</button>
+            <button class="dropdown-item" id="change-password-btn">修改密码</button>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" id="logout-btn">登出</button>
+          </div>
+        </div>
+      `,
+      sidebar: (state) => {
+        const { user, goalWeight } = state;
+        const currentWeight = state.records.length > 0 ? state.records[0].weight : 0;
+        const diff = currentWeight && goalWeight ? currentWeight - goalWeight : 0;
+        let progress = 0;
+        if (currentWeight && goalWeight) {
+            const startWeight = state.records.length > 0 ? state.records[state.records.length - 1].weight : currentWeight;
+            progress = Math.max(0, Math.min(100, ((startWeight - currentWeight) / (startWeight - goalWeight)) * 100));
+        }
+        
+        return `
+          <div class="card">
+            <div class="user-info">
+              <img src="${user.avatar || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👤</text></svg>'}" alt="avatar" class="avatar" id="avatar-img">
+              <input type="file" id="avatar-upload" class="hidden" accept="image/*">
+              <h3>${user.nickname}</h3>
+              <p>${user.username}</p>
+            </div>
+          </div>
+          <div class="card">
+            <h2>目标体重</h2>
+            <form id="goal-form" class="form">
+              <div class="field">
+                <label for="goal-weight">目标 (kg)</label>
+                <input id="goal-weight" type="number" step="0.1" min="0" value="${goalWeight || ''}" required>
+              </div>
+              <div class="form-actions"><button type="submit" class="btn btn-primary">设定</button></div>
+            </form>
+            ${goalWeight ? `
+              <div style="margin-top: var(--space-4);">
+                <p style="margin-bottom: var(--space-1);">当前: ${currentWeight.toFixed(1)} kg</p>
+                <div class="progress"><div style="width: ${progress.toFixed(2)}%;"></div></div>
+                <p style="margin-top: var(--space-2); text-align: center; font-weight: 500;">
+                  ${diff > 0 ? `还需减重 ${diff.toFixed(1)} kg` : `已低于目标 ${Math.abs(diff).toFixed(1)} kg`}
+                </p>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      },
+      mainContent: (state) => `
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>统计分析</h2>
+            <div class="chart-legend">
+              <span class="legend-item" style="--color: #667eea;"></span> 体重
+              <span class="legend-item" style="--color: #764ba2;"></span> 趋势
+            </div>
+          </div>
+          <div style="position: relative;">
+            <canvas id="weight-chart" height="300"></canvas>
+            <div id="chart-tooltip" class="chart-tooltip hidden"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>添加新记录</h2>
+          <form id="add-record-form" class="form">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);">
+              <div class="field"><label for="date">日期</label><input id="date" type="date" required></div>
+              <div class="field"><label for="weight">体重 (kg)</label><input id="weight" type="number" step="0.1" min="0" required></div>
+            </div>
+            <div class="field">
+              <label for="notes">备注 (可选)</label>
+              <input id="notes" type="text" placeholder="例如：摄入热量1800卡，运动30分钟">
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">添加记录</button>
+            </div>
+          </form>
+        </div>
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3);">
+            <h2>历史记录</h2>
+            ${state.records.length ? '<button id="clear-records" class="btn btn-danger btn-sm">清空所有</button>' : ''}
+          </div>
+          <div id="records-table-container" style="max-height: 400px; overflow-y: auto;">
+            ${state.records.length ? `
+              <table class="table">
+                <thead><tr><th>日期</th><th>体重 (kg)</th><th>备注</th><th>操作</th></tr></thead>
+                <tbody>
+                  ${state.records.map((r, i) => `
+                    <tr>
+                      <td>${new Date(r.date).toLocaleDateString()}</td>
+                      <td>${r.weight.toFixed(1)}</td>
+                      <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${r.notes || ''}">${r.notes || '-'}</td>
+                      <td><button class="btn btn-ghost btn-sm" data-index="${i}">删除</button></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            ` : '<p class="empty">暂无记录</p>'}
+          </div>
+        </div>
+      `
+    };
+
+    // --- UI CONTROLLER ---
+    const UI = {
+      renderAuth(view = 'login') {
+        $('#auth-card-content').innerHTML = view === 'login' ? Templates.login : Templates.register;
+        $('#auth-section').classList.remove('hidden');
+        $('#app-section').classList.add('hidden');
+        this.bindAuthEvents();
+      },
+
+      renderApp(state) {
+        if (!state.user) {
+          this.renderAuth();
+          return;
+        }
+        $('#auth-section').classList.add('hidden');
+        $('#app-section').classList.remove('hidden');
+        $('#user-actions').innerHTML = Templates.userActions(state.user);
+        $('#left-sidebar').innerHTML = Templates.sidebar(state);
+        $('#main-content').innerHTML = Templates.mainContent(state);
+        this.bindAppEvents();
+        this.drawChart(state.records);
+      },
+
+      bindAuthEvents() {
+        const loginForm = $('#login-form');
+        if (loginForm) {
+          loginForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const user = $('#login-user').value;
+            const pass = $('#login-pass').value;
+            if (AppState.login(user, pass)) {
+              this.renderApp(AppState.state);
+            } else {
+              alert('用户名或密码错误');
+            }
+          });
+          $('#show-register').addEventListener('click', () => this.renderAuth('register'));
+        }
+
+        const regForm = $('#register-form');
+        if (regForm) {
+          regForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const user = $('#reg-user').value;
+            const pass = $('#reg-pass').value;
+            if (AppState.register(user, pass)) {
+              this.renderApp(AppState.state);
+            } else {
+              alert('用户名已存在');
+            }
+          });
+          $('#show-login').addEventListener('click', () => this.renderAuth('login'));
+        }
+      },
+
+      bindAppEvents() {
+        // 下拉菜单控制
+        const dropdownToggle = $('#user-dropdown-toggle');
+        const dropdownMenu = $('#user-dropdown-menu');
+        
+        if (dropdownToggle && dropdownMenu) {
+          dropdownToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('hidden');
+          });
+          
+          // 点击其他地方关闭下拉菜单
+          document.addEventListener('click', () => {
+            dropdownMenu.classList.add('hidden');
+          });
+        }
+
+        // 编辑资料
+        $('#edit-profile-btn')?.addEventListener('click', () => {
+          dropdownMenu.classList.add('hidden');
+          // 设置当前昵称值
+          const editNicknameInput = $('#edit-nickname');
+          if (editNicknameInput && AppState.state.user) {
+            editNicknameInput.value = AppState.state.user.nickname;
+          }
+          $('#profile-modal').classList.remove('hidden');
+        });
+        
+        $('#cancel-profile')?.addEventListener('click', () => {
+          $('#profile-modal').classList.add('hidden');
+        });
+        
+        $('#profile-form')?.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const nickname = $('#edit-nickname').value;
+          AppState.updateUser({ nickname });
+          $('#profile-modal').classList.add('hidden');
+          alert('资料已更新');
+        });
+
+        // 修改密码
+        $('#change-password-btn')?.addEventListener('click', () => {
+          dropdownMenu.classList.add('hidden');
+          $('#password-modal').classList.remove('hidden');
+        });
+        
+        $('#cancel-password')?.addEventListener('click', () => {
+          $('#password-modal').classList.add('hidden');
+        });
+        
+        $('#password-form')?.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const newPassword = $('#new-password').value;
+          const confirmPassword = $('#confirm-password').value;
+          
+          if (newPassword !== confirmPassword) {
+            alert('两次输入的密码不一致');
+            return;
+          }
+          
+          AppState.updateUser({ password: newPassword });
+          $('#password-modal').classList.add('hidden');
+          $('#new-password').value = '';
+          $('#confirm-password').value = '';
+          alert('密码已更新');
+        });
+
+        // 登出
+        $('#logout-btn')?.addEventListener('click', () => {
+          AppState.logout();
+        });
+
+        $('#avatar-img')?.addEventListener('click', () => $('#avatar-upload').click());
+        $('#avatar-upload')?.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => AppState.updateUser({ avatar: event.target.result });
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        $('#goal-form')?.addEventListener('submit', e => {
+            e.preventDefault();
+            AppState.setGoal($('#goal-weight').value);
+        });
+
+        $('#add-record-form')?.addEventListener('submit', e => {
+            e.preventDefault();
+            const date = $('#date').value;
+            const weight = $('#weight').value;
+            const notes = $('#notes').value;
+            if(date && weight) {
+                AppState.addRecord(date, weight, notes);
+                e.target.reset();
+            }
+        });
+        
+        const recordsContainer = $('#records-table-container');
+        if(recordsContainer) {
+            recordsContainer.addEventListener('click', e => {
+                if (e.target.matches('[data-index]')) {
+                    if (confirm('确定要删除这条记录吗？')) {
+                        AppState.deleteRecord(e.target.dataset.index);
+                    }
+                }
+            });
+        }
+        
+        const clearBtn = $('#clear-records');
+        if(clearBtn) {
+            clearBtn.addEventListener('click', () => {
+                if (confirm('确定要清空所有记录吗？此操作不可恢复。')) {
+                    AppState.clearRecords();
+                }
+            });
+        }
+        
+        const chartCanvas = $('#weight-chart');
+        if (chartCanvas) {
+            chartCanvas.addEventListener('mousemove', (e) => this.handleChartTooltip(e, AppState.state.records));
+            chartCanvas.addEventListener('mouseout', () => this.hideChartTooltip());
+        }
+      },
+
+      drawChart(records) {
+        const canvas = $('#weight-chart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+
+        if (!records || records.length < 2) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.font = "16px Inter";
+            ctx.fillStyle = '#94a3b8';
+            ctx.textAlign = 'center';
+            ctx.fillText("需要至少两条记录才能绘制图表", canvas.width / 2, canvas.height / 2);
+            return;
+        }
+        
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+        
+        const labels = records.map(r => new Date(r.date)).reverse();
+        const data = records.map(r => r.weight).reverse();
+
+        const n = data.length;
+        const x = Array.from({length: n}, (_, i) => i);
+        const sumX = x.reduce((a, b) => a + b, 0);
+        const sumY = data.reduce((a, b) => a + b, 0);
+        const sumXY = x.map((xi, i) => xi * data[i]).reduce((a, b) => a + b, 0);
+        const sumXX = x.map(xi => xi * xi).reduce((a, b) => a + b, 0);
+        
+        const slope = (n * sumXX - sumX * sumX) !== 0 ? (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX) : 0;
+        const intercept = (sumY - slope * sumX) / n;
+        const trendData = x.map(xi => slope * xi + intercept);
+
+        const { width, height } = canvas;
+        const padding = { top: 20, right: 20, bottom: 40, left: 40 };
+        const chartWidth = width / dpr - padding.left - padding.right;
+        const chartHeight = height / dpr - padding.top - padding.bottom;
+        
+        const allValues = [...data, ...trendData];
+        const maxVal = Math.ceil(Math.max(...allValues));
+        const minVal = Math.floor(Math.min(...allValues));
+        const range = maxVal - minVal || 1;
+
+        const toX = (index) => padding.left + (index / (n - 1)) * chartWidth;
+        const toY = (value) => padding.top + chartHeight - ((value - minVal) / range) * chartHeight;
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.font = "12px Inter";
+
+        // Draw grid lines and Y-axis labels
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.fillStyle = '#64748b';
+        ctx.lineWidth = 1;
+        ctx.textAlign = 'right';
+        const yLabelCount = 5;
+        for (let i = 0; i <= yLabelCount; i++) {
+            const value = minVal + (range / yLabelCount) * i;
+            const y = toY(value);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(padding.left + chartWidth, y);
+            ctx.stroke();
+            ctx.fillText(value.toFixed(1), padding.left - 8, y + 4);
+        }
+
+        // Draw X-axis labels
+        ctx.textAlign = 'center';
+        const xLabelSkip = Math.max(1, Math.floor(n / 7));
+        for (let i = 0; i < n; i+=xLabelSkip) {
+            ctx.fillText(labels[i].toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' }), toX(i), height/dpr - padding.bottom + 20);
+        }
+
+        // Draw trend line
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(118, 75, 162, 0.5)';
+        ctx.lineWidth = 3;
+        ctx.lineJoin = 'round';
+        ctx.moveTo(toX(0), toY(trendData[0]));
+        for (let i = 1; i < n; i++) {
+            ctx.lineTo(toX(i), toY(trendData[i]));
+        }
+        ctx.stroke();
+
+        // Draw weight line
+        ctx.beginPath();
+        ctx.strokeStyle = '#667eea';
+        ctx.lineWidth = 3;
+        ctx.lineJoin = 'round';
+        ctx.moveTo(toX(0), toY(data[0]));
+        for (let i = 1; i < n; i++) {
+            ctx.lineTo(toX(i), toY(data[i]));
+        }
+        ctx.stroke();
+
+        // Draw points
+        ctx.fillStyle = '#667eea';
+        for (let i = 0; i < n; i++) {
+            ctx.beginPath();
+            ctx.arc(toX(i), toY(data[i]), 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+      },
+      
+      handleChartTooltip(e, records) {
+        const canvas = $('#weight-chart');
+        if (!canvas || !records || records.length < 2) return;
+        
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        
+        const n = records.length;
+        const padding = { left: 40, right: 20 };
+        const chartWidth = rect.width - padding.left - padding.right;
+        
+        const index = Math.round(((x - padding.left) / chartWidth) * (n - 1));
+
+        if (index >= 0 && index < n) {
+            const record = records[records.length - 1 - index];
+            const tooltip = $('#chart-tooltip');
+            
+            const toX = (idx) => padding.left + (idx / (n - 1)) * chartWidth;
+            
+            tooltip.innerHTML = `
+                <strong>${record.weight.toFixed(1)} kg</strong>
+                <span>${new Date(record.date).toLocaleDateString()}</span>
+            `;
+            tooltip.classList.remove('hidden');
+            const tooltipRect = tooltip.getBoundingClientRect();
+            tooltip.style.left = `${toX(index) - tooltipRect.width / 2}px`;
+            tooltip.style.top = `${e.clientY - rect.top - tooltipRect.height - 20}px`;
+        } else {
+            this.hideChartTooltip();
+        }
+      },
+
+      hideChartTooltip() {
+        const tooltip = $('#chart-tooltip');
+        if (tooltip) tooltip.classList.add('hidden');
+      }
+    };
+
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', () => {
+      AppState.init();
+      AppState.subscribe((state) => UI.renderApp(state));
+
+      if (AppState.state.user) {
+        UI.renderApp(AppState.state);
+      } else {
+        UI.renderAuth();
+      }
+    });
+  </script>
+</body>
+</html>
